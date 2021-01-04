@@ -32,6 +32,7 @@ def extract_cabin_letter(df):
 
 def add_missing_indicator(df, var):
     # function adds a binary missing value indicator
+    df = df.copy()
     df[var+'_NA'] = np.where(df[var].isnull(), 1, 0)
     return df
 
@@ -39,6 +40,7 @@ def add_missing_indicator(df, var):
 def impute_na(df,var,value='Missing'):
     # function replaces NA by value entered by user
     # or by string Missing (default behaviour)
+    df = df.copy()
     return df[var].fillna(value)
 
 
@@ -46,6 +48,7 @@ def impute_na(df,var,value='Missing'):
 def remove_rare_labels(df, frequent_labels):
     # groups labels that are not in the frequent list into the umbrella
     # group Rare
+    df = df.copy()
     for var,frq_list in frequent_labels.items():
         df[var] = np.where(df[var].isin(frq_list), df[var], 'Rare')
             
@@ -55,6 +58,7 @@ def remove_rare_labels(df, frequent_labels):
 
 def encode_categorical(df, vars_cat):
     # adds ohe variables and removes original categorical variable
+    df = df.copy()
     for var in vars_cat:
             df = pd.concat([df, pd.get_dummies(df[var], prefix=var, drop_first=True) ], axis=1)
 
@@ -67,6 +71,7 @@ def check_dummy_variables(df, dummy_list):
     
     # check that all missing variables where added when encoding, otherwise
     # add the ones that are missing
+    df = df.copy()
     colmuns = [c for c in dummy_list if c not in df.columns]
     for col in colmuns:
         df[col] = 0
