@@ -7,7 +7,9 @@ import config
 def make_prediction(input_data):
     
     # load pipeline and make predictions
-    # rturn predictions
+    titanic_pipline = joblib.load(config.PIPELINE_NAME)
+    # return predictions
+    results = titanic_pipline.predict(input_data)
 
     return results
    
